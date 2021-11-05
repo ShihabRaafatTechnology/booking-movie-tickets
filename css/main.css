@@ -1,0 +1,97 @@
+/* Start Rulez */
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Fonts */
+@font-face {
+    font-family: "Azonix";
+    src: url(../fonts/Azonix.otf);
+}
+@font-face {
+    font-family: "George";
+    src: url(../fonts/Louis\ George\ Cafe.ttf);
+}
+
+/* Colors */
+:root{
+    --bg-color: #242333;
+    --seat-color: #444451;
+    --seat-selected-color: #6feaf6;
+    --white-color: #fff;
+    --mute-color: #777;
+    --bg-rgba-black: rgba(0,0,0,.1);
+    --box-shadow: 0px 3px 16px rgba(225,225,225,.7);
+}
+
+body{
+    background-color: var(--bg-color);
+    text-transform: capitalize;
+    color: var(--white-color);
+    font-family: "George";
+    font-size: 1.1em;
+}
+
+.display-2{
+    font-family: "Azonix";
+}
+/* End Rulez */
+.cinema .movie-list select,
+.cinema .movie-list option{
+    background-color: var(--white-color);
+    border:0;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 5px 15px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+.cinema .seat{
+    background-color: var(--seat-color);
+    height: 12px;
+    width: 15px;
+    margin: 3px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.cinema .seat.selected{
+    background-color: var(--seat-selected-color);
+}
+.cinema .seat.occupied{
+    background-color: var(--white-color);
+}
+.cinema .showcase{
+    background-color: var(--bg-rgba-black);
+    border-radius: 5px;
+    color: var(--mute-color);
+    padding: 5px 10px;
+}
+.cinema .show{perspective: 1000px;}
+.cinema .show .screen{
+    height: 150px;
+    width: 70%;
+    background-image: url(../img/forrest-gump-running.gif);
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    transform: rotateX(-40deg);
+}
+.cinema .show .col-1:nth-of-type(2){
+    margin-right: 18px;
+}
+.cinema .show .col-1:nth-last-of-type(2){
+    margin-left: 18px;
+}
+.cinema .show .seat:not(.occupied):hover{
+    cursor: pointer;
+    transform: scale(1.2);
+}
+.cinema p{letter-spacing: 1.7px;}
+.cinema p span{color:var(--seat-selected-color)}
