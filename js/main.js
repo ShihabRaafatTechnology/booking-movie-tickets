@@ -1,5 +1,5 @@
 // Query Selector
-const cinema = document.querySelector(".cinema");
+const show = document.querySelector(".show");
 const seats = document.querySelectorAll(".row .seat:not(.occupied)");
 const count = document.getElementById("count");
 const total = document.getElementById("total");
@@ -18,23 +18,63 @@ function updateSelectedSeat(){
     const selectedCountSeat = selectedSeat.length;
     count.innerText = selectedCountSeat;
     total.innerText = selectedCountSeat * totalPrice;
+    // To Store Data In Local Storage
+    const selectedSeatArr = [...selectedSeat];
+    const seatIndex = selectedSeatArr.map(seat=> [...seats].indexOf(seat));
+    localStorage.setItem("SeatsSelected", JSON.stringify(seatIndex));
+}
+// Set Data Movie Selected(index,price)
+function setMovieData(indexMovie,priceMovie){
+    localStorage.setItem("indexMovieSelected", JSON.parse(indexMovie));
+    localStorage.setItem("priceMovieSelected", JSON.parse(priceMovie));
+}
+
+// Get Data From Movie Selected
+function populateUI(){
+    const selectedSeats = JSON.parse(localStorage.getItem("SeatsSelected"));
+    if(selectedSeats !== null && selectedSeats.length > 0){
+        seats.forEach((seat, index)=>{
+            if(selectedSeats.indexOf(index) > -1) return seat.classList.add("selected");
+        });
+    }
+    // Initial Movie Selected
+    const indexMovieSelected = JSON.parse(localStorage.getItem("indexMovieSelected"));
+    movieSelected.options.selectedIndex = indexMovieSelected;
+    // Initial Screen Movie
+    const movieShow = JSON.parse(localStorage.getItem("show"));
+    screen.style.backgroundImage = `url("${movieArr[movieShow]}")`;
+
+}
+populateUI();
+
+// Initial Count And Total Set
+updateSelectedSeat();
+
+// Set Data Screen Movie
+function screenShow(indexScreen){
+    localStorage.setItem("show",JSON.parse(indexScreen));
 }
 
 // When Select Movie Change Screen Show
 movieSelected.addEventListener("change", e =>{
     const options = movieSelected.options;
     screen.style.backgroundImage = `url("${movieArr[options.selectedIndex]}")`;
+    screenShow(options.selectedIndex);
     updateSelectedSeat();
-})
+});
 
 // Event Change Select Movie
 movieSelected.addEventListener("change", e =>{
-    totalPrice = JSON.parse(e.target.value);
+    const priceMovieSelected = e.target.value;
+    const indexMovieSelected = e.target.selectedIndex;
+    console.log(indexMovieSelected,priceMovieSelected);
+    totalPrice = JSON.parse(priceMovieSelected);
+    setMovieData(indexMovieSelected,priceMovieSelected)
     updateSelectedSeat();
 });
 
 // Event Select Seats
-cinema.addEventListener("click", e =>{
+show.addEventListener("click", e =>{
    const classList = e.target.classList;
    if(classList.contains("seat") && !classList.contains("occupied")){
         classList.toggle("selected");
